@@ -59,12 +59,15 @@ VRChat retired SDK2 years ago. The `VRCPlayersOnlyMirrorSDK2/` folder is preserv
 
 The example prefab uses [VRChat PlayerData](https://creators.vrchat.com/worlds/udon/persistence/) to save UI state **per-player, per-world** so it survives across sessions and instances. No server / per-world database needed — VRChat stores it.
 
-| Key                    | Type   | Set by                | What it remembers           |
+| Default key            | Type   | Set by                | What it remembers           |
 |------------------------|--------|-----------------------|-----------------------------|
 | `vpom_mirror_enabled`  | bool   | `MirrorToggleState`   | Whether the mirror is on    |
 | `vpom_transparency`    | float  | `MirrorTransparency`  | The transparency slider value |
 
-Both UdonSharp scripts read PlayerData inside `OnPlayerRestored` (the safe entry point — PlayerData is not available before that event fires) and only persist data for the local player. Each script has a `persist` checkbox in the inspector if you want to disable persistence for a particular instance.
+Both UdonSharp scripts read PlayerData inside `OnPlayerRestored` (the safe entry point — PlayerData is not available before that event fires) and only persist data for the local player. Each script exposes two inspector fields:
+
+  - `persist` — checkbox to disable PlayerData reads/writes on a per-component basis.
+  - `persistKey` — the PlayerData slot name. Give each instance a unique key if you reuse these scripts on multiple toggles or sliders in the same world; leave it blank to disable persistence without unchecking `persist`.
 
 Each world can store up to 100KB of PlayerData per player; this prefab uses ~16 bytes.
 
@@ -102,9 +105,12 @@ Each world can store up to 100KB of PlayerData per player; this prefab uses ~16 
 #### v0.2.0 — 2026
   - Modernized for current VRChat World SDK + Unity 2022.3.22f1
   - Migrated Udon Graph transparency-slider binding to UdonSharp
-  - Added VPM `package.json` so the SDK3 folder can be consumed by Creator Companion
+  - Added VPM `package.json` (VPM-listing-ready) so the SDK3 folder can be consumed by Creator Companion once a listing index is published
   - Marked SDK2 distribution as archive-only (VRChat dropped SDK2 support)
   - Added VRChat PlayerData persistence for the mirror toggle (`MirrorToggleState`) and the transparency slider (`MirrorTransparency`) — settings now survive across sessions per-player
+  - `persistKey` is exposed as a public inspector field on both scripts, so the same components can be reused for multiple toggles / sliders in one world without their PlayerData slots colliding
+  - Fixed a latent bug in `PlayersOnlyMirror.shader` where the distance-fade interpolator was uninitialized and compared across mismatched spaces; world-space position is now computed in vert and the fade works the moment the Distance Fade slider is raised above 0
+  - Added `#pragma multi_compile_instancing` to both shaders so worlds with multiple mirror instances can GPU-batch them (SPS-I stereo macros were already correctly in place)
   - Repo now tracks Unity `.meta` files and ships the prefab pre-wired, so importing the folder no longer requires a `.unitypackage` or manual sprite/import-setting fixups
 
 #### 12th Sep 2022

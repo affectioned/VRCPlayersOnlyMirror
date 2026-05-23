@@ -59,12 +59,15 @@ VRChat は SDK2 を数年前にサポート終了しています。`VRCPlayersOn
 
 サンプルプレハブは [VRChat PlayerData](https://creators.vrchat.com/worlds/udon/persistence/) を使い、UI の状態を **ワールド・プレイヤーごと** に保存します。サーバーや独自 DB は不要で、VRChat 側に保存されます。
 
-| キー                    | 型     | 設定元                | 保存する内容                |
+| デフォルトキー          | 型     | 設定元                | 保存する内容                |
 |------------------------|--------|-----------------------|-----------------------------|
 | `vpom_mirror_enabled`  | bool   | `MirrorToggleState`   | ミラーの ON/OFF             |
 | `vpom_transparency`    | float  | `MirrorTransparency`  | 透明度スライダーの値        |
 
-どちらの UdonSharp スクリプトも `OnPlayerRestored` (PlayerData が利用可能になる安全なタイミング) でデータを読み込み、ローカルプレイヤー分だけを保存します。インスペクタの `persist` チェックボックスを外せば永続化を無効化できます。
+どちらの UdonSharp スクリプトも `OnPlayerRestored` (PlayerData が利用可能になる安全なタイミング) でデータを読み込み、ローカルプレイヤー分だけを保存します。インスペクタで以下 2 つのフィールドを公開しています:
+
+  - `persist` — コンポーネント単位で PlayerData の読み書きを無効化するチェックボックス。
+  - `persistKey` — PlayerData のスロット名。同一ワールド内で複数のトグル / スライダーに使い回す場合はインスタンスごとに別のキーを指定してください。空欄にすると永続化が無効になります (`persist` を外す代わりにも使えます)。
 
 ワールドあたり 1 プレイヤー 100KB まで保存可能で、本プレハブの使用量はおよそ 16 バイトです。
 
@@ -102,9 +105,12 @@ VRChat は SDK2 を数年前にサポート終了しています。`VRCPlayersOn
 #### v0.2.0 — 2026
   - 最新の VRChat World SDK + Unity 2022.3.22f1 に対応
   - 透明度スライダーの Udon Graph を UdonSharp に移行
-  - SDK3 フォルダを VCC で取り込めるよう VPM `package.json` を追加
+  - VPM リスティング配信用に `package.json` を整備 (リスティング公開後 VCC から導入可能)
   - SDK2 配布をアーカイブ専用としてマーク (VRChat 側で SDK2 サポート終了済)
   - ミラートグル (`MirrorToggleState`) と透明度スライダー (`MirrorTransparency`) を VRChat PlayerData で永続化 — プレイヤーごとの設定がセッションをまたいで保持されます
+  - `persistKey` をインスペクタの公開フィールドに変更。同一ワールド内で複数のトグル / スライダーを使い回しても PlayerData のキーが衝突しないように構成可能
+  - `PlayersOnlyMirror.shader` の Distance Fade が初期化されていない補間値と座標空間のずれた値を比較していた不具合を修正。`Distance Fade` スライダーを 0 より上げた瞬間から正しくフェードします
+  - 両シェーダに `#pragma multi_compile_instancing` を追加し、複数ミラーを GPU バッチ可能に (SPS-I のステレオ対応マクロは元から正しく入っていました)
   - Unity `.meta` をリポジトリで管理し、プレハブを配線済みの状態でコミット。これによりフォルダのインポートに `.unitypackage` も手動の sprite/インポート設定変更も不要になりました
 
 #### 12th Sep 2022

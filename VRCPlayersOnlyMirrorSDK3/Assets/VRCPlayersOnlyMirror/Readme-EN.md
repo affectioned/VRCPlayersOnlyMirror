@@ -23,7 +23,7 @@ See the [VRChat Udon docs](https://creators.vrchat.com/worlds/udon/) for backgro
   - Create a new VRChat **World** project via VCC and add the `com.vrchat.udonsharp` package.
   - Drop this `VRCPlayersOnlyMirror` folder into your project's `Assets/`. The folder ships with `.meta` files and pre-wired prefabs, so no `.unitypackage` import or manual sprite/import-setting tweaks are needed.
   - Open the example scene or drag in `VRCPlayersOnlyMirror.prefab` / `VRCPlayersOnlyMirrorCutout.prefab`.
-  - The transparency slider and on/off toggle are already wired to `MirrorTransparency` and `MirrorToggleState` (UdonSharp, in `Runtime/`); slider value is persisted via PlayerData under key `vpom_transparency` and toggle state under `vpom_mirror_enabled`.
+  - The transparency slider and on/off toggle are already wired to `MirrorTransparency` and `MirrorToggleState` (UdonSharp, in `Runtime/`); slider value is persisted via PlayerData under the default key `vpom_transparency` and toggle state under `vpom_mirror_enabled`. Both keys are exposed as `persistKey` inspector fields — give each instance a unique key if you reuse these scripts on multiple sliders/toggles in one world.
   - See the [VRChat Persistence docs](https://creators.vrchat.com/worlds/udon/persistence/) for background.
   - The legacy `MirrorTransparency 1.asset` Udon Graph script remains in the folder for backwards compatibility — new projects should use the UdonSharp version instead.
 
@@ -64,6 +64,8 @@ VRChat SDK2 is no longer supported; the SDK2 folder in this repository is archiv
   - Migrated to current VRChat World SDK + UdonSharp on Unity 2022.3.22f1
   - Transparency slider now driven by `Runtime/MirrorTransparency.cs` (UdonSharp), replacing the old Udon Graph asset
   - Added PlayerData persistence for the mirror toggle (`Runtime/MirrorToggleState.cs`) and the transparency slider, so settings survive across sessions per-player
+  - `persistKey` exposed as an inspector field on both UdonSharp scripts for reuse on additional toggles/sliders
+  - Distance-fade shader bug fixed in `PlayersOnlyMirror.shader`; added `#pragma multi_compile_instancing` to both shaders for multi-mirror GPU batching
 
 #### 12th Sep 2022
   - Added Smooth Edge Toggle (Thanks to xiphia)

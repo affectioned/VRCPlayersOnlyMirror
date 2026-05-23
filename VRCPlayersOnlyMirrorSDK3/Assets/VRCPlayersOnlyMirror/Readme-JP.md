@@ -23,7 +23,7 @@ Udon / UdonSharp の概要は [VRChat Udon ドキュメント](https://creators.
   - VCC で新規 **World** プロジェクトを作成し、`com.vrchat.udonsharp` パッケージを追加します。
   - この `VRCPlayersOnlyMirror` フォルダをプロジェクトの `Assets/` に配置するだけです。`.meta` ファイルと配線済みプレハブが同梱されているので、`.unitypackage` のインポートや sprite / インポート設定の手動変更は不要です。
   - サンプルシーンを開くか、`VRCPlayersOnlyMirror.prefab` / `VRCPlayersOnlyMirrorCutout.prefab` をシーンに配置します。
-  - 透明度スライダーと ON/OFF トグルは `Runtime/` の `MirrorTransparency` および `MirrorToggleState` (UdonSharp) に既に配線済みです。スライダー値は PlayerData キー `vpom_transparency`、トグル状態は `vpom_mirror_enabled` で永続化されます。
+  - 透明度スライダーと ON/OFF トグルは `Runtime/` の `MirrorTransparency` および `MirrorToggleState` (UdonSharp) に既に配線済みです。スライダー値は PlayerData のデフォルトキー `vpom_transparency`、トグル状態は `vpom_mirror_enabled` で永続化されます。両キーは `persistKey` インスペクタフィールドで上書き可能です — 同一ワールドで複数のスライダー / トグルに使い回す場合はインスタンスごとに固有のキーを指定してください。
   - 詳細は [VRChat Persistence ドキュメント](https://creators.vrchat.com/worlds/udon/persistence/) を参照してください。
   - レガシーの `MirrorTransparency 1.asset` (Udon Graph) は互換性のため残してあります。新規プロジェクトでは UdonSharp 版を使用してください。
 
@@ -63,6 +63,8 @@ VRChat SDK2 は既にサポート終了しています。リポジトリ内の S
   - 最新の VRChat World SDK + UdonSharp (Unity 2022.3.22f1) に対応
   - 透明度スライダーを `Runtime/MirrorTransparency.cs` (UdonSharp) で実装し、旧 Udon Graph アセットを置き換え
   - ミラートグル (`Runtime/MirrorToggleState.cs`) と透明度スライダーに PlayerData による永続化を追加。プレイヤーごとの設定がセッションをまたいで保持されます
+  - 両 UdonSharp スクリプトの `persistKey` をインスペクタ公開フィールド化。同一ワールド内でトグル / スライダーを使い回しても衝突しない構成が可能
+  - `PlayersOnlyMirror.shader` の Distance Fade バグを修正、両シェーダに `#pragma multi_compile_instancing` を追加 (複数ミラーの GPU バッチング)
 
 #### 12th Sep 2022
   - Smooth Edgeトグルを追加（xiphia氏に感謝します）
