@@ -11,8 +11,6 @@ namespace VRCPlayersOnlyMirror
     [AddComponentMenu("VRCPlayersOnlyMirror/Mirror Toggle State")]
     public class MirrorToggleState : UdonSharpBehaviour
     {
-        const string PersistKey = "vpom_mirror_enabled";
-
         [Tooltip("UI Toggle that controls whether the mirror is active.")]
         public Toggle mirrorToggle;
 
@@ -22,24 +20,28 @@ namespace VRCPlayersOnlyMirror
         [Tooltip("Persist the toggle state per-player via VRChat PlayerData so it survives across sessions.")]
         public bool persist = true;
 
+        [Tooltip("PlayerData key used to persist the toggle state. Give each instance a unique key when reusing this component on multiple toggles in the same world.")]
+        public string persistKey = "vpom_mirror_enabled";
+
         public void OnToggleChanged()
         {
             if (mirrorToggle == null) return;
             bool on = mirrorToggle.isOn;
             ApplyTargets(on);
-            if (persist && Networking.LocalPlayer != null)
+            if (persist && !string.IsNullOrEmpty(persistKey) && Networking.LocalPlayer != null)
             {
-                PlayerData.SetBool(PersistKey, on);
+                PlayerData.SetBool(persistKey, on);
             }
         }
 
         public override void OnPlayerRestored(VRCPlayerApi player)
         {
-            if (!persist || player == null || !player.isLocal) return;
+            if (!persist || string.IsNullOrEmpty(persistKey)) return;
+            if (player == null || !player.isLocal) return;
             if (mirrorToggle == null) return;
-            if (!PlayerData.HasKey(player, PersistKey)) return;
+            if (!PlayerData.HasKey(player, persistKey)) return;
 
-            bool restored = PlayerData.GetBool(player, PersistKey);
+            bool restored = PlayerData.GetBool(player, persistKey);
             mirrorToggle.SetIsOnWithoutNotify(restored);
             ApplyTargets(restored);
         }
