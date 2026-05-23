@@ -30,22 +30,20 @@ See the [VRChat Udon docs](https://creators.vrchat.com/worlds/udon/) for an over
 
 # Installation
 
-The SDK3 folder is fully self-contained — `.meta` files, prefab wiring, UdonSharp program assets, texture import settings, and the VPM `package.json` are all checked in, so no `.unitypackage` build step is needed. Pick whichever install path fits your workflow:
+The SDK3 folder is fully self-contained — `.meta` files, prefab wiring, UdonSharp program assets, texture import settings, and a VPM `package.json` are all checked in. Pick whichever install path fits your workflow:
 
-## Option A — VCC / Creator Companion (recommended)
+## Option A — Direct folder copy (works today)
 
-1. Install the [VRChat Creator Companion](https://vcc.docs.vrchat.com/).
-2. Create a new **World** project — VCC will pull in `com.vrchat.worlds` and the matching Unity version automatically.
-3. Add `com.vrchat.udonsharp` to the project from VCC's package list.
-4. Add this repo as a VPM listing (it ships `VRCPlayersOnlyMirrorSDK3/package.json`), or just clone/download and drop the `VRCPlayersOnlyMirrorSDK3/Assets/VRCPlayersOnlyMirror` folder into your project's `Assets/`.
+1. Set up a VRChat **World** project via the [Creator Companion](https://vcc.docs.vrchat.com/), and add `com.vrchat.udonsharp` to it from VCC's package list. VCC will pull in `com.vrchat.worlds` and the matching Unity version automatically.
+2. Download this repo as a ZIP or `git clone` it, then copy `VRCPlayersOnlyMirrorSDK3/Assets/VRCPlayersOnlyMirror` into your project's `Assets/`. Unity reads the checked-in `.meta` files and the prefab resolves cleanly with no manual import-setting fixups.
 
-## Option B — Direct folder copy
+## Option B — .unitypackage
 
-  - Download the repo as a ZIP or `git clone` it, then copy `VRCPlayersOnlyMirrorSDK3/Assets/VRCPlayersOnlyMirror` into your project's `Assets/`. Unity reads the checked-in `.meta` files and the prefab references resolve correctly with no manual import-settings clicking.
+  - Pre-built `.unitypackage` downloads are attached to [Releases](https://github.com/acertainbluecat/VRCPlayersOnlyMirror/releases) for users who prefer a one-file drag-and-drop import.
 
-## Option C — .unitypackage (optional)
+## Option C — VCC / VPM listing (once published)
 
-  - Pre-built `.unitypackage` downloads are still attached to [Releases](https://github.com/acertainbluecat/VRCPlayersOnlyMirror/releases) for users who prefer a one-file drag-and-drop import. Not required — Options A and B give you the same result.
+  - `VRCPlayersOnlyMirrorSDK3/package.json` is set up so this package can be served from a VPM listing and installed directly through Creator Companion. Publishing the VPM listing index is up to the upstream repo maintainer; until that listing exists, use Option A or B.
 
 ## SDK2 (archive only)
 

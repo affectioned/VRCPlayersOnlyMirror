@@ -30,22 +30,20 @@ Udon の概要、Udon Graph と UdonSharp の違いについては [VRChat Udon 
 
 # インストール
 
-SDK3 フォルダは完全に自己完結しています — `.meta` ファイル、プレハブの配線、UdonSharp プログラムアセット、テクスチャのインポート設定、VPM `package.json` すべてがコミットされているため、`.unitypackage` のビルドは不要です。ワークフローに合ったオプションを選んでください:
+SDK3 フォルダは完全に自己完結しています — `.meta` ファイル、プレハブの配線、UdonSharp プログラムアセット、テクスチャのインポート設定、VPM `package.json` すべてがコミットされています。ワークフローに合った方法を選んでください:
 
-## オプション A — VCC / Creator Companion (推奨)
+## オプション A — フォルダを直接コピー (現時点で利用可能)
 
-1. [VRChat Creator Companion](https://vcc.docs.vrchat.com/) をインストールします。
-2. 新規 **World** プロジェクトを作成すると、VCC が `com.vrchat.worlds` と対応する Unity バージョンを自動で取得します。
-3. VCC のパッケージ一覧から `com.vrchat.udonsharp` をプロジェクトに追加します。
-4. 本リポジトリを VPM リスティングとして追加するか (`VRCPlayersOnlyMirrorSDK3/package.json` を同梱)、リポジトリをクローン/ZIP ダウンロードして `VRCPlayersOnlyMirrorSDK3/Assets/VRCPlayersOnlyMirror` フォルダを `Assets/` にコピーしてください。
+1. [VRChat Creator Companion](https://vcc.docs.vrchat.com/) で **World** プロジェクトを作成し、VCC のパッケージ一覧から `com.vrchat.udonsharp` を追加します。`com.vrchat.worlds` と対応する Unity バージョンは VCC が自動で取得します。
+2. 本リポジトリを ZIP でダウンロード、または `git clone` してから `VRCPlayersOnlyMirrorSDK3/Assets/VRCPlayersOnlyMirror` フォルダをプロジェクトの `Assets/` にコピーするだけです。コミット済みの `.meta` を Unity が読み込み、プレハブ参照やインポート設定は自動で解決されます (手動操作不要)。
 
-## オプション B — フォルダを直接コピー
+## オプション B — .unitypackage
 
-  - リポジトリを ZIP でダウンロード、または `git clone` してから `VRCPlayersOnlyMirrorSDK3/Assets/VRCPlayersOnlyMirror` フォルダをプロジェクトの `Assets/` にコピーするだけです。コミット済みの `.meta` を Unity が読み込み、プレハブ参照やインポート設定は自動で解決されます (手動操作不要)。
+  - ワンファイルでドラッグ&ドロップで導入したい方向けに、ビルド済み `.unitypackage` を [Releases](https://github.com/acertainbluecat/VRCPlayersOnlyMirror/releases) に添付しています。
 
-## オプション C — .unitypackage (任意)
+## オプション C — VCC / VPM リスティング (公開後)
 
-  - ワンファイルでドラッグ&ドロップで導入したい方向けに、ビルド済み `.unitypackage` を [Releases](https://github.com/acertainbluecat/VRCPlayersOnlyMirror/releases) に添付しています。必須ではなく、オプション A / B と同じ結果になります。
+  - `VRCPlayersOnlyMirrorSDK3/package.json` は VPM リスティング経由で配信し、Creator Companion から直接インストールできるように構成されています。VPM リスティングのインデックスを公開するかどうかはリポジトリの作者に委ねられています。リスティングが公開されるまでは、オプション A または B をご利用ください。
 
 ## SDK2 (アーカイブのみ)
 
