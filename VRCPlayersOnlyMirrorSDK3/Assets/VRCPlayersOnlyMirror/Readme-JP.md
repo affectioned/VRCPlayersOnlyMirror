@@ -21,10 +21,9 @@ Udon / UdonSharp の概要は [VRChat Udon ドキュメント](https://creators.
 # 方法
 
   - VCC で新規 **World** プロジェクトを作成し、`com.vrchat.udonsharp` パッケージを追加します。
-  - この `VRCPlayersOnlyMirror` フォルダをプロジェクトの `Assets/` に配置 (またはリリースの `.unitypackage` をインポート) します。
+  - この `VRCPlayersOnlyMirror` フォルダをプロジェクトの `Assets/` に配置するだけです。`.meta` ファイルと配線済みプレハブが同梱されているので、`.unitypackage` のインポートや sprite / インポート設定の手動変更は不要です。
   - サンプルシーンを開くか、`VRCPlayersOnlyMirror.prefab` / `VRCPlayersOnlyMirrorCutout.prefab` をシーンに配置します。
-  - 透明度スライダーを使う場合は、プレハブの `Mirror` GameObject の UdonBehaviour に `Runtime/` 配下の `MirrorTransparency` (UdonSharp) を取り付け、`uiSlider` と `Mirror` の参照を割り当ててください。スライダー値は PlayerData キー `vpom_transparency` で永続化されます。
-  - ON/OFF トグルには `Runtime/MirrorToggleState` (UdonSharp) を `MirrorToggle` GameObject に取り付け、`mirrorToggle` と `targets` (Mirror + TransparencySlider) を割り当ててください。さらに `Toggle.OnValueChanged` に登録されている `SetActive` の Persistent Call を削除し、代わりに `MirrorToggleState.OnToggleChanged` を 1 件だけ登録します。状態は PlayerData キー `vpom_mirror_enabled` で永続化されます。
+  - 透明度スライダーと ON/OFF トグルは `Runtime/` の `MirrorTransparency` および `MirrorToggleState` (UdonSharp) に既に配線済みです。スライダー値は PlayerData キー `vpom_transparency`、トグル状態は `vpom_mirror_enabled` で永続化されます。
   - 詳細は [VRChat Persistence ドキュメント](https://creators.vrchat.com/worlds/udon/persistence/) を参照してください。
   - レガシーの `MirrorTransparency 1.asset` (Udon Graph) は互換性のため残してあります。新規プロジェクトでは UdonSharp 版を使用してください。
 

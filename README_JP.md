@@ -30,16 +30,22 @@ Udon の概要、Udon Graph と UdonSharp の違いについては [VRChat Udon 
 
 # インストール
 
+SDK3 フォルダは完全に自己完結しています — `.meta` ファイル、プレハブの配線、UdonSharp プログラムアセット、テクスチャのインポート設定、VPM `package.json` すべてがコミットされているため、`.unitypackage` のビルドは不要です。ワークフローに合ったオプションを選んでください:
+
 ## オプション A — VCC / Creator Companion (推奨)
 
 1. [VRChat Creator Companion](https://vcc.docs.vrchat.com/) をインストールします。
 2. 新規 **World** プロジェクトを作成すると、VCC が `com.vrchat.worlds` と対応する Unity バージョンを自動で取得します。
 3. VCC のパッケージ一覧から `com.vrchat.udonsharp` をプロジェクトに追加します。
-4. `VRCPlayersOnlyMirrorSDK3/Assets/VRCPlayersOnlyMirror` フォルダをプロジェクトの `Assets/` にコピー (またはリリースの `.unitypackage` をインポート) します。
+4. 本リポジトリを VPM リスティングとして追加するか (`VRCPlayersOnlyMirrorSDK3/package.json` を同梱)、リポジトリをクローン/ZIP ダウンロードして `VRCPlayersOnlyMirrorSDK3/Assets/VRCPlayersOnlyMirror` フォルダを `Assets/` にコピーしてください。
 
-## オプション B — .unitypackage (従来配布)
+## オプション B — フォルダを直接コピー
 
-  - [Releases](https://github.com/acertainbluecat/VRCPlayersOnlyMirror/releases) からダウンロードできます。SDK3 パッケージは最新の VRChat World SDK + UdonSharp 向けです。
+  - リポジトリを ZIP でダウンロード、または `git clone` してから `VRCPlayersOnlyMirrorSDK3/Assets/VRCPlayersOnlyMirror` フォルダをプロジェクトの `Assets/` にコピーするだけです。コミット済みの `.meta` を Unity が読み込み、プレハブ参照やインポート設定は自動で解決されます (手動操作不要)。
+
+## オプション C — .unitypackage (任意)
+
+  - ワンファイルでドラッグ&ドロップで導入したい方向けに、ビルド済み `.unitypackage` を [Releases](https://github.com/acertainbluecat/VRCPlayersOnlyMirror/releases) に添付しています。必須ではなく、オプション A / B と同じ結果になります。
 
 ## SDK2 (アーカイブのみ)
 
@@ -49,13 +55,7 @@ VRChat は SDK2 を数年前にサポート終了しています。`VRCPlayersOn
 
   - サンプルシーン (`Assets/VRCPlayersOnlyMirror/Example.unity`) を開くか、`VRCPlayersOnlyMirror.prefab` / `VRCPlayersOnlyMirrorCutout.prefab` をシーンに配置してください。
   - プレハブの `Mirror` GameObject には `VRC_MirrorReflection` が設定済みで、`cameraClearFlags = SolidColor` + 透明クリアカラー + PlayersOnlyMirror シェーダの構成になっています。 `TransparentBackground` マスクは不要です。
-  - 透明度スライダーを使う場合は、`Mirror` GameObject の UdonBehaviour に `MirrorTransparency` (UdonSharp) コンポーネントを取り付け、以下を割り当ててください:
-    - `uiSlider` → `TransparencySlider` の Slider
-    - `Mirror` → `Mirror` の MeshRenderer
-  - ON/OFF トグルには `MirrorToggleState` を `MirrorToggle` GameObject に取り付け、以下を割り当ててください:
-    - `mirrorToggle` → `MirrorToggle` の `Toggle` コンポーネント
-    - `targets` → `Mirror` と `TransparencySlider` の GameObject
-    - `Toggle.OnValueChanged` 側にあった `SetActive` の Persistent Call を削除し、代わりに `MirrorToggleState.OnToggleChanged` を 1 つだけ登録してください (こうしないと状態が保存されません)。
+  - 透明度スライダーと ON/OFF トグルは `MirrorTransparency` および `MirrorToggleState` (UdonSharp) に事前配線済みです。手動での接続作業は不要です。
 
 # Persistence (永続化)
 
@@ -107,6 +107,7 @@ VRChat は SDK2 を数年前にサポート終了しています。`VRCPlayersOn
   - SDK3 フォルダを VCC で取り込めるよう VPM `package.json` を追加
   - SDK2 配布をアーカイブ専用としてマーク (VRChat 側で SDK2 サポート終了済)
   - ミラートグル (`MirrorToggleState`) と透明度スライダー (`MirrorTransparency`) を VRChat PlayerData で永続化 — プレイヤーごとの設定がセッションをまたいで保持されます
+  - Unity `.meta` をリポジトリで管理し、プレハブを配線済みの状態でコミット。これによりフォルダのインポートに `.unitypackage` も手動の sprite/インポート設定変更も不要になりました
 
 #### 12th Sep 2022
   - Smooth Edgeトグルを追加（xiphia氏に感謝します）

@@ -30,16 +30,22 @@ See the [VRChat Udon docs](https://creators.vrchat.com/worlds/udon/) for an over
 
 # Installation
 
+The SDK3 folder is fully self-contained — `.meta` files, prefab wiring, UdonSharp program assets, texture import settings, and the VPM `package.json` are all checked in, so no `.unitypackage` build step is needed. Pick whichever install path fits your workflow:
+
 ## Option A — VCC / Creator Companion (recommended)
 
 1. Install the [VRChat Creator Companion](https://vcc.docs.vrchat.com/).
 2. Create a new **World** project — VCC will pull in `com.vrchat.worlds` and the matching Unity version automatically.
 3. Add `com.vrchat.udonsharp` to the project from VCC's package list.
-4. Drop the `VRCPlayersOnlyMirrorSDK3/Assets/VRCPlayersOnlyMirror` folder into your project's `Assets/` (or import the released `.unitypackage`).
+4. Add this repo as a VPM listing (it ships `VRCPlayersOnlyMirrorSDK3/package.json`), or just clone/download and drop the `VRCPlayersOnlyMirrorSDK3/Assets/VRCPlayersOnlyMirror` folder into your project's `Assets/`.
 
-## Option B — .unitypackage (legacy distribution)
+## Option B — Direct folder copy
 
-  - Release downloads are still published at [Releases](https://github.com/acertainbluecat/VRCPlayersOnlyMirror/releases). The SDK3 package targets the modern VRChat World SDK + UdonSharp.
+  - Download the repo as a ZIP or `git clone` it, then copy `VRCPlayersOnlyMirrorSDK3/Assets/VRCPlayersOnlyMirror` into your project's `Assets/`. Unity reads the checked-in `.meta` files and the prefab references resolve correctly with no manual import-settings clicking.
+
+## Option C — .unitypackage (optional)
+
+  - Pre-built `.unitypackage` downloads are still attached to [Releases](https://github.com/acertainbluecat/VRCPlayersOnlyMirror/releases) for users who prefer a one-file drag-and-drop import. Not required — Options A and B give you the same result.
 
 ## SDK2 (archive only)
 
@@ -47,15 +53,9 @@ VRChat retired SDK2 years ago. The `VRCPlayersOnlyMirrorSDK2/` folder is preserv
 
 # How to use
 
-  - Open the example scene at `Assets/VRCPlayersOnlyMirror/Example.unity`, or drop the `VRCPlayersOnlyMirror.prefab` / `VRCPlayersOnlyMirrorCutout.prefab` into your scene.
+  - Open the example scene at `Assets/VRCPlayersOnlyMirror/Example.unity`, or drop `VRCPlayersOnlyMirror.prefab` / `VRCPlayersOnlyMirrorCutout.prefab` into your scene.
   - The `Mirror` GameObject under the prefab carries a `VRC_MirrorReflection` component already configured with `cameraClearFlags = SolidColor` and a transparent clear color, plus the PlayersOnlyMirror shader — no `TransparentBackground` mask is needed.
-  - If you keep the in-world transparency slider, attach the `MirrorTransparency` (UdonSharp) component to the UdonBehaviour on the `Mirror` GameObject and assign:
-    - `uiSlider` → the in-world `TransparencySlider` Slider
-    - `Mirror` → the `Mirror` MeshRenderer
-  - For the on/off toggle, attach `MirrorToggleState` to the `MirrorToggle` GameObject and assign:
-    - `mirrorToggle` → the `Toggle` component on `MirrorToggle`
-    - `targets` → the `Mirror` and `TransparencySlider` GameObjects
-    - Remove the legacy `SetActive` persistent calls on the `Toggle.OnValueChanged` and replace them with a single call to `MirrorToggleState.OnToggleChanged` so the script can persist the state.
+  - The transparency slider and on/off toggle are pre-wired to `MirrorTransparency` and `MirrorToggleState` UdonSharp behaviours; no manual hooking up is required.
 
 # Persistence
 
@@ -107,6 +107,7 @@ Each world can store up to 100KB of PlayerData per player; this prefab uses ~16 
   - Added VPM `package.json` so the SDK3 folder can be consumed by Creator Companion
   - Marked SDK2 distribution as archive-only (VRChat dropped SDK2 support)
   - Added VRChat PlayerData persistence for the mirror toggle (`MirrorToggleState`) and the transparency slider (`MirrorTransparency`) — settings now survive across sessions per-player
+  - Repo now tracks Unity `.meta` files and ships the prefab pre-wired, so importing the folder no longer requires a `.unitypackage` or manual sprite/import-setting fixups
 
 #### 12th Sep 2022
   - Added Smooth Edge Toggle (Thanks to xiphia)

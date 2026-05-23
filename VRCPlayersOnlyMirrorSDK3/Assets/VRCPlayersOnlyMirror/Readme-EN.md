@@ -21,10 +21,9 @@ See the [VRChat Udon docs](https://creators.vrchat.com/worlds/udon/) for backgro
 # How to
 
   - Create a new VRChat **World** project via VCC and add the `com.vrchat.udonsharp` package.
-  - Drop this `VRCPlayersOnlyMirror` folder into your project's `Assets/` (or import the released `.unitypackage`).
+  - Drop this `VRCPlayersOnlyMirror` folder into your project's `Assets/`. The folder ships with `.meta` files and pre-wired prefabs, so no `.unitypackage` import or manual sprite/import-setting tweaks are needed.
   - Open the example scene or drag in `VRCPlayersOnlyMirror.prefab` / `VRCPlayersOnlyMirrorCutout.prefab`.
-  - To use the in-world transparency slider, attach `MirrorTransparency` (UdonSharp, in `Runtime/`) to the UdonBehaviour on the prefab's `Mirror` GameObject and assign `uiSlider` + `Mirror` references. Slider value is persisted via PlayerData under key `vpom_transparency`.
-  - To use the on/off toggle, attach `MirrorToggleState` (UdonSharp, in `Runtime/`) to the `MirrorToggle` GameObject, assign `mirrorToggle` + `targets` (Mirror + TransparencySlider), and replace the legacy `SetActive` Persistent Calls on the `Toggle.OnValueChanged` with a single call to `MirrorToggleState.OnToggleChanged`. State is persisted via PlayerData under key `vpom_mirror_enabled`.
+  - The transparency slider and on/off toggle are already wired to `MirrorTransparency` and `MirrorToggleState` (UdonSharp, in `Runtime/`); slider value is persisted via PlayerData under key `vpom_transparency` and toggle state under `vpom_mirror_enabled`.
   - See the [VRChat Persistence docs](https://creators.vrchat.com/worlds/udon/persistence/) for background.
   - The legacy `MirrorTransparency 1.asset` Udon Graph script remains in the folder for backwards compatibility — new projects should use the UdonSharp version instead.
 
