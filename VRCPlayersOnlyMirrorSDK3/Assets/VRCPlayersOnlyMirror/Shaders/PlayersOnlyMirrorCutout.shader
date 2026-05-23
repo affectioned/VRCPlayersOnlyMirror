@@ -40,6 +40,7 @@ Shader "Mirror/VRCPlayersOnlyMirrorCutout"
             #pragma vertex vert
             #pragma fragment frag
             #pragma target 3.0
+            #pragma multi_compile_instancing
             #include "UnityCG.cginc"
             #include "UnityInstancing.cginc"
 
@@ -51,7 +52,7 @@ Shader "Mirror/VRCPlayersOnlyMirrorCutout"
             sampler2D _ReflectionTex0;
             sampler2D _ReflectionTex1;
 
-            struct appdata 
+            struct appdata
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
@@ -65,11 +66,6 @@ Shader "Mirror/VRCPlayersOnlyMirrorCutout"
                 float4 refl : TEXCOORD1;
                 float4 pos : SV_POSITION;
                 UNITY_VERTEX_OUTPUT_STEREO
-            };
-
-            struct Input {
-                float2 _ReflectionTex0;
-                float2 _ReflectionTex1;
             };
 
             v2f vert(appdata v)

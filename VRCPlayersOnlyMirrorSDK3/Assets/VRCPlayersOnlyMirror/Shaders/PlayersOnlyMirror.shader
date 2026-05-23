@@ -46,6 +46,7 @@
             #pragma vertex vert
             #pragma fragment frag
             #pragma target 3.0
+            #pragma multi_compile_instancing
             #include "UnityCG.cginc"
             #include "UnityInstancing.cginc"
 
@@ -63,7 +64,7 @@
             sampler2D _ReflectionTex1;
             sampler2D _TransparencyTex;
 
-            struct appdata 
+            struct appdata
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
@@ -76,15 +77,9 @@
                 float2 uv : TEXCOORD0;
                 float4 refl : TEXCOORD1;
                 float4 pos : SV_POSITION;
-                float4 distance : TEXCOORD2;
+                float3 worldPos : TEXCOORD2;
 
                 UNITY_VERTEX_OUTPUT_STEREO
-            };
-
-            struct Input {
-                float2 _ReflectionTex0;
-                float2 _ReflectionTex1;
-                float2 _TransparencyTex;
             };
 
             v2f vert(appdata v)
@@ -98,6 +93,7 @@
                 o.pos = UnityObjectToClipPos(v.vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 o.refl = ComputeNonStereoScreenPos(o.pos);
+                o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
 
                 return o;
             }
@@ -128,7 +124,7 @@
 
                 // distance fade
                 if (_DistanceFade > 0) {
-                    refl.a *= 1 - smoothstep(_DistanceFade, _DistanceFade + _DistanceFadeLength, distance(i.distance, mul(unity_WorldToObject, float4(_WorldSpaceCameraPos, 1.0))));
+                    refl.a *= 1 - smoothstep(_DistanceFade, _DistanceFade + _DistanceFadeLength, distance(i.worldPos, _WorldSpaceCameraPos));
                 }
 
                 refl *= tex;             
