@@ -1,4 +1,11 @@
-# VRCPlayersOnlyMirror v0.1.5
+> # ⚠ Deprecated — VRChat SDK2 is no longer supported
+>
+> VRChat retired the SDK2 toolchain years ago. This folder is preserved as a historical archive only and **will not work in current VRChat worlds**. Use the SDK3 / UdonSharp package in `VRCPlayersOnlyMirrorSDK3/` instead.
+>
+> Modern SDK install: [VRChat Creator Companion](https://vcc.docs.vrchat.com/) → add `com.vrchat.worlds` + `com.vrchat.udonsharp` on Unity 2022.3.22f1.
+> Udon background reading: <https://creators.vrchat.com/worlds/udon/>
+
+# VRCPlayersOnlyMirror v0.1.5 (SDK2 — archive only)
 
 Tired of having to choose between admiring the scenery in a nice map or staring at your own reflection? Now you can do both at the same time!
 VRCPlayersOnlyMirror is a simple mirror prefab that shows players only without any background.

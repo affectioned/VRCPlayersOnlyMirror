@@ -1,0 +1,29 @@
+{
+  "name": "com.acertainbluecat.vrcplayersonlymirror",
+  "displayName": "VRCPlayersOnlyMirror",
+  "version": "0.2.0",
+  "description": "A simple mirror prefab that shows players only without any background. Full 3D player-only reflections for VRChat worlds.",
+  "unity": "2022.3",
+  "author": {
+    "name": "acertainbluecat",
+    "url": "https://github.com/acertainbluecat/VRCPlayersOnlyMirror"
+  },
+  "license": "MIT",
+  "url": "https://github.com/acertainbluecat/VRCPlayersOnlyMirror",
+  "changelogUrl": "https://github.com/acertainbluecat/VRCPlayersOnlyMirror/releases",
+  "documentationUrl": "https://github.com/acertainbluecat/VRCPlayersOnlyMirror#readme",
+  "vpmDependencies": {
+    "com.vrchat.worlds": ">=3.7.0",
+    "com.vrchat.udonsharp": ">=1.1.0"
+  },
+  "keywords": [
+    "vrchat",
+    "udon",
+    "udonsharp",
+    "mirror",
+    "shader"
+  ],
+  "legacyFolders": {
+    "Assets\\VRCPlayersOnlyMirror": "60acdd92eb5fa6c4d975b6d44dc6e234"
+  }
+}

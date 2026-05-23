@@ -1,4 +1,4 @@
-# VRCPlayersOnlyMirror v0.1.5
+# VRCPlayersOnlyMirror v0.2.0 (SDK3 / UdonSharp)
 
 素敵な地図で景色を眺めるか、自分の反射を見つめるかを選択するのにうんざりしていませんか？ 今、あなたは両方を同時に行うことができます！
 VRCPlayersOnlyMirrorは、背景のないプレーヤーのみを表示するシンプルなミラーprefabです。
@@ -11,13 +11,22 @@ VRCPlayersOnlyMirrorは、背景のないプレーヤーのみを表示するシ
   - LQミラーとほぼ同等の性能コスト
 
 # 要件
-  - VRChat SDK2 or SDK3
-  - **!!! SDK3 VRCSDK3-WORLD-2022.08.29.20.48_Public または v0.1.4+ 用の新しいもの !!!**
+  - Unity **2022.3.22f1** (VRChat 現行サポート版)
+  - [Creator Companion](https://vcc.docs.vrchat.com/) から導入する VPM パッケージ:
+    - `com.vrchat.worlds`
+    - `com.vrchat.udonsharp`
+
+Udon / UdonSharp の概要は [VRChat Udon ドキュメント](https://creators.vrchat.com/worlds/udon/) を参照してください。
 
 # 方法
 
-  - プロジェクトに応じて、SDK2またはSDK3のunitypackageをインポートします
-  - サンプルシーンとprefabが提供されています
+  - VCC で新規 **World** プロジェクトを作成し、`com.vrchat.udonsharp` パッケージを追加します。
+  - この `VRCPlayersOnlyMirror` フォルダをプロジェクトの `Assets/` に配置 (またはリリースの `.unitypackage` をインポート) します。
+  - サンプルシーンを開くか、`VRCPlayersOnlyMirror.prefab` / `VRCPlayersOnlyMirrorCutout.prefab` をシーンに配置します。
+  - 透明度スライダーを使う場合は、プレハブの `Mirror` GameObject の UdonBehaviour に `Runtime/` 配下の `MirrorTransparency` (UdonSharp) を取り付け、`uiSlider` と `Mirror` の参照を割り当ててください。スライダー値は PlayerData キー `vpom_transparency` で永続化されます。
+  - ON/OFF トグルには `Runtime/MirrorToggleState` (UdonSharp) を `MirrorToggle` GameObject に取り付け、`mirrorToggle` と `targets` (Mirror + TransparencySlider) を割り当ててください。さらに `Toggle.OnValueChanged` に登録されている `SetActive` の Persistent Call を削除し、代わりに `MirrorToggleState.OnToggleChanged` を 1 件だけ登録します。状態は PlayerData キー `vpom_mirror_enabled` で永続化されます。
+  - 詳細は [VRChat Persistence ドキュメント](https://creators.vrchat.com/worlds/udon/persistence/) を参照してください。
+  - レガシーの `MirrorTransparency 1.asset` (Udon Graph) は互換性のため残してあります。新規プロジェクトでは UdonSharp 版を使用してください。
 
 # シェーダの種類
 
@@ -38,9 +47,7 @@ VRCPlayersOnlyMirrorは、背景のないプレーヤーのみを表示するシ
 
 # SDK2
 
-  - ミラーが正しく機能するには「TransparentBackground」が必要ですが、VRCPlayersOnlyMirrorを使用していない他のミラーがシーンにある場合は、別のレイヤーに配置して、VRCPlayersOnlyMirrorのレイヤーにのみ表示することを検討してください。 それ以外の場合は、VRCPlayersOnlyMirrorもオンになっている場合は、フルミラーなど、他のミラーに表示されます。 必要に応じてサイズを変更します。
-  - sdk2でミラーのマテリアルプロパティをアニメーション化することはできないため、カメラとレンダリングテクスチャは、UIスライダーを介してミラーの透明度を制御するために使用されます。
-  - 複数のミラーがあり、独立した透明度スライダーが必要な場合は、個別のマテリアルを作成し、それぞれにテクスチャとカメラをレンダリングする必要があります。
+VRChat SDK2 は既にサポート終了しています。リポジトリ内の SDK2 フォルダはアーカイブ専用です。 SDK3 / UdonSharp 配布を使用してください。
 
 # 欠点
 
@@ -52,6 +59,11 @@ VRCPlayersOnlyMirrorは、背景のないプレーヤーのみを表示するシ
   - ミラーの後ろまたは前にある透明なマテリアルは、ミラーによって上書きまたは上書きされる可能性があります。レンダリングキューを調整すると、ステンシルを使用した最後の手段として役立ちます。
 
 # Updates
+
+#### v0.2.0 — 2026
+  - 最新の VRChat World SDK + UdonSharp (Unity 2022.3.22f1) に対応
+  - 透明度スライダーを `Runtime/MirrorTransparency.cs` (UdonSharp) で実装し、旧 Udon Graph アセットを置き換え
+  - ミラートグル (`Runtime/MirrorToggleState.cs`) と透明度スライダーに PlayerData による永続化を追加。プレイヤーごとの設定がセッションをまたいで保持されます
 
 #### 12th Sep 2022
   - Smooth Edgeトグルを追加（xiphia氏に感謝します）

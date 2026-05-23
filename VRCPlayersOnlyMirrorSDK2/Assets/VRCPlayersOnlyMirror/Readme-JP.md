@@ -1,4 +1,11 @@
-# VRCPlayersOnlyMirror v0.1.5
+> # ⚠ サポート終了 — VRChat SDK2 は使用できません
+>
+> VRChat は SDK2 ツールチェーンを数年前にサポート終了しています。このフォルダは歴史的アーカイブとしてのみ残しており、**現行の VRChat ワールドでは動作しません**。代わりに `VRCPlayersOnlyMirrorSDK3/` の SDK3 / UdonSharp パッケージを使用してください。
+>
+> 最新の SDK 導入: [VRChat Creator Companion](https://vcc.docs.vrchat.com/) → Unity 2022.3.22f1 上で `com.vrchat.worlds` + `com.vrchat.udonsharp` を追加。
+> Udon 解説: <https://creators.vrchat.com/worlds/udon/>
+
+# VRCPlayersOnlyMirror v0.1.5 (SDK2 — アーカイブのみ)
 
 素敵な地図で景色を眺めるか、自分の反射を見つめるかを選択するのにうんざりしていませんか？ 今、あなたは両方を同時に行うことができます！
 VRCPlayersOnlyMirrorは、背景のないプレーヤーのみを表示するシンプルなミラーprefabです。

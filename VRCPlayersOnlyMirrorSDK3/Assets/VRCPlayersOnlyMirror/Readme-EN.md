@@ -1,4 +1,4 @@
-# VRCPlayersOnlyMirror v0.1.5
+# VRCPlayersOnlyMirror v0.2.0 (SDK3 / UdonSharp)
 
 Tired of having to choose between admiring the scenery in a nice map or staring at your own reflection? Now you can do both at the same time!
 VRCPlayersOnlyMirror is a simple mirror prefab that shows players only without any background.
@@ -11,14 +11,24 @@ This is NOT a 2D camera cut out, it is a full 3D mirror.
   - Performance cost more or less the same as a LQ mirror
 
 # Requirements
-  - VRChat SDK2 or SDK3
-  - **!!! SDK3 VRCSDK3-WORLD-2022.08.29.20.48_Public or newer for v0.1.4+ !!!**
+  - Unity **2022.3.22f1** (current VRChat-supported version)
+  - VPM packages via [Creator Companion](https://vcc.docs.vrchat.com/):
+    - `com.vrchat.worlds`
+    - `com.vrchat.udonsharp`
+
+See the [VRChat Udon docs](https://creators.vrchat.com/worlds/udon/) for background on Udon / UdonSharp.
 
 # How to
 
-  - Import either the SDK2 or SDK3 unitypackage depending on your project
-  - Example scene is provided as well as a prefab
-  
+  - Create a new VRChat **World** project via VCC and add the `com.vrchat.udonsharp` package.
+  - Drop this `VRCPlayersOnlyMirror` folder into your project's `Assets/` (or import the released `.unitypackage`).
+  - Open the example scene or drag in `VRCPlayersOnlyMirror.prefab` / `VRCPlayersOnlyMirrorCutout.prefab`.
+  - To use the in-world transparency slider, attach `MirrorTransparency` (UdonSharp, in `Runtime/`) to the UdonBehaviour on the prefab's `Mirror` GameObject and assign `uiSlider` + `Mirror` references. Slider value is persisted via PlayerData under key `vpom_transparency`.
+  - To use the on/off toggle, attach `MirrorToggleState` (UdonSharp, in `Runtime/`) to the `MirrorToggle` GameObject, assign `mirrorToggle` + `targets` (Mirror + TransparencySlider), and replace the legacy `SetActive` Persistent Calls on the `Toggle.OnValueChanged` with a single call to `MirrorToggleState.OnToggleChanged`. State is persisted via PlayerData under key `vpom_mirror_enabled`.
+  - See the [VRChat Persistence docs](https://creators.vrchat.com/worlds/udon/persistence/) for background.
+  - The legacy `MirrorTransparency 1.asset` Udon Graph script remains in the folder for backwards compatibility — new projects should use the UdonSharp version instead.
+
+
 # Shader Types
 
   - **PlayersOnlyMirror** - Regular version with transparency and distance fade
@@ -38,9 +48,7 @@ This is NOT a 2D camera cut out, it is a full 3D mirror.
 
 # SDK2
 
-  - The "TransparentBackground" is required for the mirror to work properly, however if you have other mirrors in your scene that are not using VRCPlayersOnlyMirror, consider putting it on a different layer and show it on VRCPlayersOnlyMirror's layers only. Other wise it will show up in other mirrors, such as a full mirror if VRCPlayersOnlyMirror is also on. Resize as needed.
-  - The camera and render texture is used to control the transparency of the mirror via a ui slider, as its not possible to animate mirror material properties on sdk2. 
-  - If you have multiple mirrors and want independent transparency sliders, you will need to make separate materials, render textures and camera's for each of them
+VRChat SDK2 is no longer supported; the SDK2 folder in this repository is archive-only. Use the SDK3 / UdonSharp distribution.
 
 # Caveats
   
@@ -52,6 +60,11 @@ This is NOT a 2D camera cut out, it is a full 3D mirror.
   - Transparent materials behind or in front of the mirror may overwrite or be overwritten by the mirror, adjusting the render queue can help, or as a last resort using stencils.
 
 # Updates
+
+#### v0.2.0 — 2026
+  - Migrated to current VRChat World SDK + UdonSharp on Unity 2022.3.22f1
+  - Transparency slider now driven by `Runtime/MirrorTransparency.cs` (UdonSharp), replacing the old Udon Graph asset
+  - Added PlayerData persistence for the mirror toggle (`Runtime/MirrorToggleState.cs`) and the transparency slider, so settings survive across sessions per-player
 
 #### 12th Sep 2022
   - Added Smooth Edge Toggle (Thanks to xiphia)
